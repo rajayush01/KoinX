@@ -2,28 +2,6 @@ import React, { useEffect, useState } from "react";
 
 const PriceChart = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("7D");
-  const [priceData, setPriceData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Fetch Bitcoin price data (not directly visualized but for display purposes)
-    const fetchPriceData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=inr,usd&include_24hr_change=true"
-        );
-        const data = await response.json();
-        setPriceData(data.bitcoin);
-      } catch (error) {
-        console.error("Error fetching price data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPriceData();
-  }, []);
 
   useEffect(() => {
     // Load TradingView widget with updated settings
@@ -64,7 +42,7 @@ const PriceChart = () => {
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between">
-        <h2 className="text-base font-semibold mb-4 ">
+        <h2 className="text-base font-semibold mb-4">
           Bitcoin Price Chart (USD)
         </h2>
 
@@ -74,10 +52,11 @@ const PriceChart = () => {
               key={period}
               onClick={() => setSelectedPeriod(period)}
               className={`px-1 py-2 text-xs sm:text-sm sm:px-4 font-semibold rounded-full hover:bg-[#E2ECFE] 
-                            ${selectedPeriod === period
-                  ? "bg-[#E2ECFE] text-blue-700"
-                  : "text-gray-500"
-                }`}
+                            ${
+                              selectedPeriod === period
+                                ? "bg-[#E2ECFE] text-blue-700"
+                                : "text-gray-500"
+                            }`}
             >
               {period}
             </button>
